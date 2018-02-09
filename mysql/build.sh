@@ -2,4 +2,4 @@
 
 docker build -t netrope/mysql .
 
-echo 'build success!'
+echo 'MySQL build success!'
