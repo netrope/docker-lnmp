@@ -2,14 +2,14 @@ nginx:
     image: nginx:1.13.8
     ports:
       - "80:80"
-#      - "443:443"
+      - "443:443"
     links:
       - "php7.2"
+#      - "php7.0"
     volumes:
       - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./conf/vhost/:/etc/nginx/vhost/
       - ../:/datadisk/website/
-    links:
-      - "php7.2"
     container_name: nginx
 
 mysql:
@@ -26,6 +26,7 @@ mysql:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     container_name: mysql
 
+
 php7.2:
     image: php:7.2.1-fpm
     expose:
@@ -34,6 +35,10 @@ php7.2:
       - "redis"
       - "mysql"
     volumes:
+      - ./conf/php7.2/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/php7.2/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./conf/php7.2/php-fpm.d/:/usr/local/etc/php-fpm.d/
+      - ./conf/php7.2/extensions/:/usr/local/lib/php/extensions/
       - ../:/datadisk/website
     container_name: php7.2
 
