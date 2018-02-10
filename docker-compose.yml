@@ -6,8 +6,8 @@ nginx:
     links:
       - "php7.2"
     volumes:
-      - /datadisk/docker-lnmp/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - /datadisk/:/datadisk/
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - ../:/datadisk/website/
     links:
       - "php7.2"
     container_name: nginx
@@ -19,8 +19,8 @@ mysql:
     expose:
       - "3306"
     volumes:
-      - /datadisk/docker-lnmp/mysql/my.cnf:/etc/mysql/my.cnf
-      - /datadisk/:/datadisk/
+      - ./conf/my.cnf:/etc/mysql/my.cnf
+      - ../:/datadisk/website
 
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -34,7 +34,7 @@ php7.2:
       - "redis"
       - "mysql"
     volumes:
-      - /datadisk/:/datadisk/
+      - ../:/datadisk/website
     container_name: php7.2
 
 redis:
@@ -44,8 +44,8 @@ redis:
     expose:
       - "6379"
     volumes:
-      - /datadisk/docker-lnmp/redis/redis.conf:/etc/redis.conf
-      - /datadisk/:/datadisk/
+      - ./conf/redis.conf:/etc/redis.conf
+      - ../:/datadisk/website
     command: "redis-server /etc/redis.conf"
 
     container_name: redis
