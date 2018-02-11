@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run --privileged --name centos -tid -v /datadisk/:/datadisk/ centos
