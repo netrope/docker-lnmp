@@ -57,14 +57,13 @@ redis:
 
 php7.2:
     image: netrope/php:7.2
-    ports:
-      - "9000:9000"
     expose:
       - "9000"
     links:
       - "redis"
       - "mysql"
-    command: ["/usr/sbin/init"]
+    command:
+      ["/usr/sbin/init"]
     volumes:
       - ./conf/php7.2/php.ini:/usr/local/php7/etc/php.ini
       - ./conf/php7.2/php-fpm.conf:/usr/local/php7/etc/php-fpm.conf
