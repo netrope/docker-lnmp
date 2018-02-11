@@ -3,3 +3,5 @@
 path=$(cd `dirname $0`;pwd)
 test -d ${path}/logs/ || mkdir -p ${path}/logs/
 docker-compose up -d
+
+
