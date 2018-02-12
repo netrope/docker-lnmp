@@ -7,10 +7,15 @@ COPY php.ini /usr/local/php7/etc/
 COPY php-fpm.conf /usr/local/php7/etc/
 
 RUN apt-get update --fix-missing \
-    && apt-get install -y libpng-dev libfreetype6-dev libxml2-dev \
+    && apt-get install -y wget zip libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
     && docker-php-ext-install mysqli pdo_mysql zip bcmath calendar soap \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd \
+    && docker-php-ext-install gd
+
+RUN cd /usr/local/src \
+    && wget -O swoole-2.1.0.zip https://github.com/swoole/swoole-src/archive/v2.1.0.zip
+    && unzip swoole-2.1.0.zip && cd swoole-src-2.1.0 \
+    && phpize && ./configure --prefix=/usr/local/swoole && make && make install \
 
 #RUN docker-php-ext-install gd \
 #    && docker-php-ext-install mysqli

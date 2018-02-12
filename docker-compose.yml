@@ -44,7 +44,9 @@ services:
 
 
   php7.2:
-      image: netrope/php-fpm:7.2
+#      image: netrope/php-fpm:7.2
+      build:
+        ./conf/php7.2/
       ports:
         - "9000:9000"
       expose:
@@ -53,7 +55,7 @@ services:
         - "redis"
         - "mysql"
       volumes:
-        - ./conf/php7.2/php.ini:/usr/local/php7/etc/php.ini
+        - ./conf/php7.2/php.ini:/usr/local/etc/php/php.ini
         - ./conf/php7.2/php-fpm.conf:/usr/local/php7/etc/php-fpm.conf
         - ./conf/php7.2/php-fpm.d/:/usr/local/php7/etc/php-fpm.d/
         - ../:/datadisk/website
