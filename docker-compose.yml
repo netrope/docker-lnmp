@@ -44,9 +44,8 @@ services:
 
 
   php7.2:
-#      image: netrope/php-fpm:7.2
       build:
-        ./conf/php7.2/
+        ./php7.2/
       ports:
         - "9000:9000"
       expose:
@@ -57,8 +56,8 @@ services:
       volumes:
         - ../:/datadisk/website
 #        使用自己的配置文件，将下面几行注释取消掉
-#        - ./conf/php7.2/php.ini-production:/usr/local/etc/php/php.ini
-#        - ./conf/php7.2/php-fpm.conf:/usr/local/etc/php-fpm.conf
-#        - ./conf/php7.2/php-fpm.d/:/usr/local/etc/php-fpm.d/
+#        - ./php7.2/php.ini-production:/usr/local/etc/php/php.ini
+#        - ./php7.2/php-fpm.conf:/usr/local/etc/php-fpm.conf
+#        - ./php7.2/php-fpm.d/:/usr/local/etc/php-fpm.d/
       container_name: php7.2
 
