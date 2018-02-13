@@ -55,9 +55,10 @@ services:
         - "redis"
         - "mysql"
       volumes:
-        - ./conf/php7.2/php.ini:/usr/local/etc/php/php.ini
-        - ./conf/php7.2/php-fpm.conf:/usr/local/php7/etc/php-fpm.conf
-        - ./conf/php7.2/php-fpm.d/:/usr/local/php7/etc/php-fpm.d/
         - ../:/datadisk/website
+#        使用自己的配置文件，将下面几行注释取消掉
+#        - ./conf/php7.2/php.ini-production:/usr/local/etc/php/php.ini
+#        - ./conf/php7.2/php-fpm.conf:/usr/local/etc/php-fpm.conf
+#        - ./conf/php7.2/php-fpm.d/:/usr/local/etc/php-fpm.d/
       container_name: php7.2
 
