@@ -43,6 +43,14 @@ RUN cd /usr/local/src \
     && docker-php-ext-enable yaf \
     && cd /usr/local/src && rm -rf *
 
+############# 安装扩展 Xdebug 2.6.0 #######
+RUN cd /usr/local/src \
+    && wget https://xdebug.org/files/xdebug-2.6.0.tgz \
+    && tar -xvf xdebug-2.6.0.tgz && cd xdebug-2.6.0 \
+    && phpize && ./configure && make && make install \
+    && docker-php-ext-enable xdebug \
+    && cd /usr/local/src && rm -rf *
+
 
 #bcmath bz2 calendar ctype curl dba dom enchant exif fileinfo filter ftp gd gettext gmp hash iconv
 #imap interbase intl json ldap mbstring mysqli oci8 odbc opcache pcntl pdo pdo_dblib pdo_firebird pdo_mysql
