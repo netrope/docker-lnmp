@@ -1,8 +1,0 @@
-#!/bin/bash
-    #-v /datadisk/website/docker-lnmp/conf/php7.2/php-fpm.d/:/usr/local/php7/etc/php-fpm.d/ \
-    #-v /datadisk/website/docker-lnmp/conf/php7.2/php.ini:/usr/local/php7/etc/php.ini \
-
-docker run -ti --name my  \
-    -v /datadisk/:/datadisk/ \
-    -v /datadisk/website/docker-lnmp/conf/php7.2/php.ini-production:/usr/local/etc/php/php.ini \
-    dockerlnmp_php7.2
