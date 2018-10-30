@@ -1,8 +1,0 @@
-#!/bin/bash
-
-docker run -tid --name myphp7  \
-    -p 9000:9000 \
-    -v /datadisk/:/datadisk/ \
-    -v /datadisk/website/docker-lnmp/conf/php7.2/php-fpm.conf:/usr/local/php7/etc/php-fpm.conf \
-    -v /datadisk/website/docker-lnmp/conf/php7.2/php-fpm.d/:/usr/local/php7/etc/php-fpm.d/ \
-     netrope/php:7.2 /bin/bash

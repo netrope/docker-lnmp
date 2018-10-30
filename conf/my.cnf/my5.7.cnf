@@ -14,10 +14,16 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 [mysqld]
-log-slow-queries = /datadisk/docker-lnmp/run-files/mysql/slowquery.log
+#慢查询日志-5.6版
+#log-slow-queries = /log/mysql_slowquery.log
+slow_query_log = on
+
+#慢查询日志-5.7版
+slow-query-log-file = /log/mysql_slowquery.log
+
 long_query_time = 1  #单位是秒
 log-queries-not-using-indexes #记录所有没有用上索引全表扫描的语句
-log-error      = /datadisk/docker-lnmp/run-files/mysql/error.log
+log-error      = /log/mysql_error.log
 explicit_defaults_for_timestamp=true
 
 #[mysqld]

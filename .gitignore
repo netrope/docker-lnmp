@@ -1,4 +1,3 @@
 .idea/
 
-run-files/
-logs/
+runtime/
