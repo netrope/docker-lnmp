@@ -10,9 +10,9 @@ services:
     - "php7.2"
     - "php5.6"
     volumes:
+    - ../:/datadisk/website/
     - ./conf/nginx.conf:/etc/nginx/nginx.conf
     - ./conf/vhost/:/etc/nginx/vhost/
-    - ../:/datadisk/website/
     - ./runtime/logs:/log
     container_name: nginx
     networks:
@@ -27,12 +27,12 @@ services:
     expose:
     - "3306"
     volumes:
-    #        - ./conf/my.cnf/my5.7.cnf:/etc/mysql/my5.7.cnf
-    #        - ./runtime/mysql5.7/:/var/lib/mysql/
+    - ../:/datadisk/website
 
+#    - ./conf/my.cnf/my5.7.cnf:/etc/mysql/my5.7.cnf
+#    - ./runtime/mysql5.7/:/var/lib/mysql/
     - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
     - ./runtime/mysql5.5/:/var/lib/mysql/
-    - ../:/datadisk/website
     - ./runtime/logs:/log
 
     environment:
@@ -49,8 +49,8 @@ services:
     expose:
     - "6379"
     volumes:
-    - ./conf/redis.conf:/etc/redis.conf
     - ../:/datadisk/website
+    - ./conf/redis.conf:/etc/redis.conf
     - ./runtime/logs:/log
     command: "redis-server /etc/redis.conf"
 
@@ -68,14 +68,8 @@ services:
     volumes:
     - ../:/datadisk/website
     - ./runtime/logs:/log
-#        - ../meitu_local_config/:/www/privdata/
-#        使用自己的配置文件，将下面几行注释取消掉
     - ./php7.2/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    # - ./php7.2/php-fpm.conf:/usr/local/etc/php-fpm.conf
-    # - ./php7.2/php-fpm.d/:/usr/local/etc/php-fpm.d/
     container_name: php7.2
-    # environment:
-    #   - http_proxy=socks5://10.0.0.10:9090
     networks:
       lnmp:
         ipv4_address: 192.168.100.20
@@ -88,14 +82,43 @@ services:
     volumes:
     - ../:/datadisk/website
     - ./runtime/logs:/log
-#        使用自己的配置文件，将下面几行注释取消掉
+#    - ../meitu_local_config/:/www/privdata/
     - ./php5.6/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-#    - ./php5.6/php-fpm.conf:/usr/local/etc/php-fpm.conf
-#    - ./php5.6/php-fpm.d/:/usr/local/etc/php-fpm.d/
     container_name: php5.6
     networks:
       lnmp:
         ipv4_address: 192.168.100.50
+
+  memcache:
+    image: memcached:1.5.11
+    ports:
+    - "11211:11211"
+    expose:
+    - "11211"
+    volumes:
+    - ../:/datadisk/website
+    - ./runtime/logs:/log
+    container_name: memcached
+    networks:
+      lnmp:
+        ipv4_address: 192.168.100.60
+
+  mongodb:
+    image: mongo:4.0.3
+    ports:
+    - "27017:27017"
+    expose:
+    - "27017"
+    volumes:
+    - ../:/datadisk/website
+    - ./conf/mongod.conf:/etc/mongod.conf
+    - ./runtime/logs:/var/log
+    - ./runtime/mongodb:/var/lib/mongodb
+    command: "mongod --config /etc/mongod.conf"
+    container_name: mongodb
+    networks:
+      lnmp:
+        ipv4_address: 192.168.100.70
 
 networks:
   lnmp:
