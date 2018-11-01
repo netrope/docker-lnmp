@@ -28,12 +28,12 @@ services:
     - "3306"
     volumes:
     - ../:/datadisk/website
+    - ./runtime/logs:/log
 
 #    - ./conf/my.cnf/my5.7.cnf:/etc/mysql/my5.7.cnf
 #    - ./runtime/mysql5.7/:/var/lib/mysql/
     - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
     - ./runtime/mysql5.5/:/var/lib/mysql/
-    - ./runtime/logs:/log
 
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -89,58 +89,58 @@ services:
       lnmp:
         ipv4_address: 192.168.100.50
 
-#  memcache:
-#    image: memcached:1.5.11
-#    ports:
-#    - "11211:11211"
-#    expose:
-#    - "11211"
-#    volumes:
-#    - ../:/datadisk/website
-#    - ./runtime/logs:/log
-#    container_name: memcached
-#    networks:
-#      lnmp:
-#        ipv4_address: 192.168.100.60
+  memcache:
+    image: memcached:1.5.11
+    ports:
+    - "11211:11211"
+    expose:
+    - "11211"
+    volumes:
+    - ../:/datadisk/website
+    - ./runtime/logs:/log
+    container_name: memcached
+    networks:
+      lnmp:
+        ipv4_address: 192.168.100.60
 
-#  mongodb:
-#    image: mongo:4.0.3
-#    ports:
-#    - "27017:27017"
-#    expose:
-#    - "27017"
-#    volumes:
-#    - ../:/datadisk/website
-#    - ./conf/mongod.conf:/etc/mongod.conf
+  mongodb:
+    image: mongo:4.0.3
+    ports:
+    - "27017:27017"
+    expose:
+    - "27017"
+    volumes:
+    - ../:/datadisk/website
+    - ./conf/mongod.conf:/etc/mongod.conf
+    - ./runtime/logs:/var/log
+    - ./runtime/mongodb:/var/lib/mongodb
+    command: "mongod --config /etc/mongod.conf"
+    container_name: mongodb
+    networks:
+      lnmp:
+        ipv4_address: 192.168.100.70
+
+  rabbitmq:
+    image: rabbitmq:3.7.8
+    ports:
+    - "4369:4369"
+    - "5672:5672"
+    - "15672:15672"
+    - "25672:25672"
+    expose:
+    - "4369"
+    - "5672"
+    - "15672"
+    - "25672"
+    volumes:
+    - ../:/datadisk/website
+    - ./conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 #    - ./runtime/logs:/var/log
 #    - ./runtime/mongodb:/var/lib/mongodb
-#    command: "mongod --config /etc/mongod.conf"
-#    container_name: mongodb
-#    networks:
-#      lnmp:
-#        ipv4_address: 192.168.100.70
-
-#  rabbitmq:
-#    image: rabbitmq:3.7.8
-#    ports:
-#    - "4369:4369"
-#    - "5672:5672"
-#    - "15672:15672"
-#    - "25672:25672"
-#    expose:
-#    - "4369"
-#    - "5672"
-#    - "15672"
-#    - "25672"
-#    volumes:
-#    - ../:/datadisk/website
-#    - ./conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-##    - ./runtime/logs:/var/log
-##    - ./runtime/mongodb:/var/lib/mongodb
-#    container_name: rabbitmq
-#    networks:
-#      lnmp:
-#        ipv4_address: 192.168.100.80
+    container_name: rabbitmq
+    networks:
+      lnmp:
+        ipv4_address: 192.168.100.80
 
 networks:
   lnmp:

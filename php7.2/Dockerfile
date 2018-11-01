@@ -5,26 +5,37 @@ ENV TZ "Asia/Shanghai"
 
 ############# install require package #############
 RUN apt-get update --fix-missing \
-    && apt-get install -y wget zip libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev libmemcached-dev inetutils-ping net-tools vim \
+    && apt-get install -y wget zip libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev libmemcached-dev inetutils-ping net-tools vim librabbitmq-dev librdkafka-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install mysqli pdo_mysql zip bcmath calendar soap exif gd
 
-############# download php-extend #################
-RUN cd /usr/local/src \
-    && wget http://pecl.php.net/get/redis-3.1.6.tgz && tar -xvf redis-3.1.6.tgz && mv redis-3.1.6 redis \
-    && wget https://github.com/php-memcached-dev/php-memcached/archive/v3.0.4.tar.gz && tar -xvf v3.0.4.tar.gz && mv php-memcached-3.0.4 memcached \
-    && wget https://pecl.php.net/get/mongodb-1.4.0.tgz && tar -xvf mongodb-1.4.0.tgz && mv mongodb-1.4.0 mongo \
-    && wget -O swoole-2.1.0.zip https://github.com/swoole/swoole-src/archive/v2.1.0.zip && unzip swoole-2.1.0.zip && mv swoole-src-2.1.0 swoole \
-    && wget http://pecl.php.net/get/yaf-3.0.6.tgz && tar -xvf yaf-3.0.6.tgz && mv yaf-3.0.6 yaf \
-    && wget https://xdebug.org/files/xdebug-2.6.0.tgz && tar -xvf xdebug-2.6.0.tgz && mv xdebug-2.6.0 xdebug
-
 ############# install php-extend #################
-RUN cd /usr/local/src/redis && phpize && ./configure && make && make install && docker-php-ext-enable redis
-RUN cd /usr/local/src/memcached && phpize && ./configure --disable-memcached-sasl && make && make install && docker-php-ext-enable memcached
-RUN cd /usr/local/src/mongo && phpize && ./configure && make && make install && docker-php-ext-enable mongodb
-RUN cd /usr/local/src/swoole && phpize && ./configure && make && make install && docker-php-ext-enable swoole
-RUN cd /usr/local/src/yaf && phpize && ./configure && make && make install && docker-php-ext-enable yaf
-RUN cd /usr/local/src/xdebug && phpize && ./configure && make && make install && docker-php-ext-enable xdebug
+RUN cd /usr/local/src && wget http://pecl.php.net/get/amqp-1.9.3.tgz && tar -xvf amqp-1.9.3.tgz && cd amqp-1.9.3 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable amqp
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/swoole-4.2.5.tgz && tar -xvf swoole-4.2.5.tgz && cd swoole-4.2.5 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable swoole
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/yaf-3.0.6.tgz && tar -xvf yaf-3.0.6.tgz && cd yaf-3.0.6 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable yaf
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/xdebug-2.6.1.tgz && tar -xvf xdebug-2.6.1.tgz && cd xdebug-2.6.1 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable xdebug
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/redis-3.1.6.tgz && tar -xvf redis-3.1.6.tgz && cd redis-3.1.6 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable redis
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/memcached-3.0.4.tgz && tar -xvf memcached-3.0.4.tgz && cd memcached-3.0.4 \
+    && phpize && ./configure --disable-memcached-sasl && make && make install && docker-php-ext-enable memcached
+
+RUN cd /usr/local/src && wget https://pecl.php.net/get/mongodb-1.4.0.tgz && tar -xvf mongodb-1.4.0.tgz && cd mongodb-1.4.0 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable mongodb
+
+RUN cd /usr/local/src && wget http://pecl.php.net/get/rdkafka-3.0.5.tgz && tar -xvf rdkafka-3.0.5.tgz && cd rdkafka-3.0.5 \
+    && phpize && ./configure && make && make install && docker-php-ext-enable rdkafka
+
+RUN cd /usr/local/src && rm -rf * && rm -rf *.*
+
 
 ############# set socks5 proxy #######
 # CMD [ "export" ,"ALL_PROXY=socks5://127.0.0.1:9090"]
