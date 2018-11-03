@@ -32,7 +32,7 @@ services:
 
 #    - ./conf/my.cnf/my5.7.cnf:/etc/mysql/my5.7.cnf
 #    - ./runtime/mysql5.7/:/var/lib/mysql/
-    - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
+#    - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
     - ./runtime/mysql5.5/:/var/lib/mysql/
 
     environment:
