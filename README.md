@@ -23,3 +23,8 @@
         root /datadisk/website/site3/root/
 5. 修改配置后，重启nginx容器才能生效 `docker restart nginx`
 
+### 使用 XDEBUG
+1. 为本地网卡设置别名 `sudo ifconfig lo0 alias 10.0.0.10`
+2. 为chrome安装扩展 xdebug，并对其进行设置
+3. 配置phpstorm
+
