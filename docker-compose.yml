@@ -52,8 +52,7 @@ services:
 
 
   php7.0:
-    image: php:7.0.33-fpm
-#    image: netrope/php7.0_ext:1.0
+    image: netrope/php7.0_ext:1.0
     links:
     - "redis"
     - "mysql"
@@ -61,7 +60,6 @@ services:
     - ../:/datadisk/website
     - ./conf/php7.0/php.ini:/usr/local/etc/php/php.ini
     - ./conf/php7.0/php-fpm.conf:/usr/local/etc/php-fpm.conf
-    - ./conf/php7.0/ext/:/usr/local/lib/php/extensions/no-debug-non-zts-20151012
     container_name: php7.0
     networks:
       lnmp:
