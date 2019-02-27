@@ -52,7 +52,7 @@ services:
 
 
   php7.0:
-    image: php:fpm-7.0.33
+    image: php:7.0.33-fpm
 #    image: netrope/php7.0_ext:1.0
     links:
     - "redis"
