@@ -2,26 +2,25 @@ version: "3.2"
 services:
 
   nginx:
-    image: nginx:1.13.8
+    image: nginx:1.14.2
     ports:
     - "80:80"
     - "443:443"
     links:
-    - "php7.2"
-    - "php5.6"
+    - "php7.0"
+#    - "php5.6"
     volumes:
     - ../:/datadisk/website/
     - ./conf/nginx.conf:/etc/nginx/nginx.conf
-    - ./conf/vhost/:/etc/nginx/vhost/
-    - ./runtime/logs:/log
+#    - ./conf/vhost/:/etc/nginx/vhost/
+#    - ./runtime/logs:/log
     container_name: nginx
     networks:
       lnmp:
         ipv4_address: 192.168.100.10
 
   mysql:
-    # image: mysql:5.7.21
-    image: mysql:5.5.60
+    image: mysql:5.6.43
     ports:
     - "3306:3306"
     expose:
@@ -29,11 +28,9 @@ services:
     volumes:
     - ../:/datadisk/website
 
-#    - ./conf/my.cnf/my5.7.cnf:/etc/mysql/my5.7.cnf
-#    - ./runtime/mysql5.7/:/var/lib/mysql/
-    - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
-    - ./runtime/mysql5.5/:/var/lib/mysql/
-    - ./runtime/logs:/log
+#    - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
+#    - ./runtime/mysql5.5/:/var/lib/mysql/
+#    - ./runtime/logs:/log
 
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -43,7 +40,7 @@ services:
         ipv4_address: 192.168.100.30
 
   redis:
-    image: redis:4.0.8
+    image: redis:5.0.3
     ports:
     - "6379:6379"
     expose:
@@ -60,34 +57,34 @@ services:
         ipv4_address: 192.168.100.40
 
 
-  php7.2:
-    build: ./php7.2/
+  php7.0:
+    image: netrope/php7.0_ext:1.0
     links:
     - "redis"
     - "mysql"
     volumes:
     - ../:/datadisk/website
     - ./runtime/logs:/log
-    - ./php7.2/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    container_name: php7.2
+#    - ./php7.2/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    container_name: php7.0
     networks:
       lnmp:
         ipv4_address: 192.168.100.20
 
-  php5.6:
-    build: ./php5.6/
-    links:
-    - "redis"
-    - "mysql"
-    volumes:
-    - ../:/datadisk/website
-    - ./runtime/logs:/log
-#    - ../meitu_local_config/:/www/privdata/
-    - ./php5.6/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    container_name: php5.6
-    networks:
-      lnmp:
-        ipv4_address: 192.168.100.50
+#  php5.6:
+#    build: ./php5.6/
+#    links:
+#    - "redis"
+#    - "mysql"
+#    volumes:
+#    - ../:/datadisk/website
+#    - ./runtime/logs:/log
+##    - ../meitu_local_config/:/www/privdata/
+#    - ./php5.6/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#    container_name: php5.6
+#    networks:
+#      lnmp:
+#        ipv4_address: 192.168.100.50
 
 #  memcache:
 #    image: memcached:1.5.11
