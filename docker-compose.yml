@@ -8,12 +8,10 @@ services:
     - "443:443"
     links:
     - "php7.0"
-#    - "php5.6"
     volumes:
     - ../:/datadisk/website/
     - ./conf/nginx.conf:/etc/nginx/nginx.conf
-#    - ./conf/vhost/:/etc/nginx/vhost/
-#    - ./runtime/logs:/log
+    - ./conf/vhost/:/etc/nginx/vhost/
     container_name: nginx
     networks:
       lnmp:
@@ -27,11 +25,8 @@ services:
     - "3306"
     volumes:
     - ../:/datadisk/website
-
-#    - ./conf/my.cnf/my5.5.cnf:/etc/mysql/my5.5.cnf
-#    - ./runtime/mysql5.5/:/var/lib/mysql/
-#    - ./runtime/logs:/log
-
+    - ./conf/mysql/my5.6.cnf:/etc/mysql/my.cnf
+    - ./runtime/mysql5.6/:/var/lib/mysql/
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     container_name: mysql
@@ -48,7 +43,6 @@ services:
     volumes:
     - ../:/datadisk/website
     - ./conf/redis.conf:/etc/redis.conf
-    - ./runtime/logs:/log
     command: "redis-server /etc/redis.conf"
 
     container_name: redis
@@ -58,33 +52,20 @@ services:
 
 
   php7.0:
-    image: netrope/php7.0_ext:1.0
+    image: php:fpm-7.0.33
+#    image: netrope/php7.0_ext:1.0
     links:
     - "redis"
     - "mysql"
     volumes:
     - ../:/datadisk/website
-    - ./runtime/logs:/log
-#    - ./php7.2/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    - ./conf/php7.0/php.ini:/usr/local/etc/php/php.ini
+    - ./conf/php7.0/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    - ./conf/php7.0/ext/:/usr/local/lib/php/extensions/no-debug-non-zts-20151012
     container_name: php7.0
     networks:
       lnmp:
         ipv4_address: 192.168.100.20
-
-#  php5.6:
-#    build: ./php5.6/
-#    links:
-#    - "redis"
-#    - "mysql"
-#    volumes:
-#    - ../:/datadisk/website
-#    - ./runtime/logs:/log
-##    - ../meitu_local_config/:/www/privdata/
-#    - ./php5.6/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-#    container_name: php5.6
-#    networks:
-#      lnmp:
-#        ipv4_address: 192.168.100.50
 
 #  memcache:
 #    image: memcached:1.5.11
@@ -94,7 +75,6 @@ services:
 #    - "11211"
 #    volumes:
 #    - ../:/datadisk/website
-#    - ./runtime/logs:/log
 #    container_name: memcached
 #    networks:
 #      lnmp:
@@ -109,8 +89,6 @@ services:
 #    volumes:
 #    - ../:/datadisk/website
 #    - ./conf/mongod.conf:/etc/mongod.conf
-#    - ./runtime/logs:/var/log
-#    - ./runtime/mongodb:/var/lib/mongodb
 #    command: "mongod --config /etc/mongod.conf"
 #    container_name: mongodb
 #    networks:
@@ -132,8 +110,6 @@ services:
 #    volumes:
 #    - ../:/datadisk/website
 #    - ./conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-##    - ./runtime/logs:/var/log
-##    - ./runtime/mongodb:/var/lib/mongodb
 #    container_name: rabbitmq
 #    networks:
 #      lnmp:
