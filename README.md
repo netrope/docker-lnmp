@@ -6,6 +6,8 @@
 
 memcache、mongodb、rabbitmq 这三个服务是可选服务，如果用不上（比如前端开发），先将`docker-compose.yml`文件里的相应节点删掉，然后再执行 ` ./start `
 
+站点根目录应于此目录处于同一层级。
+
 ###二、配置
 
 - nginx: `conf/nginx.conf` 、`conf/vhost/*`
